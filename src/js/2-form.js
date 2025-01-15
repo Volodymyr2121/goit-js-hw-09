@@ -1,42 +1,43 @@
-let formDate = {
+let formData = {
     email: "",
     message: ""
 };
 
 const form = document.querySelector(".feedback-form");
-const inputEmail = form.querySelector('input[name="email"]');
-const inputMessage = form.querySelector('textarea[name="message"]');
-const buttonSubmit = form.querySelector('button[type="submit"]');
+const inputEmail = document.querySelector("input[name=email]");
+const inputText = document.querySelector("textarea[name=message]");
 
-const feedbackFormState = localStorage.getItem("feedback-form-state");
-if(feedbackFormState){
-    formDate = JSON.parse(feedbackFormState);
-    inputEmail.value = formDate.email;
-    inputMessage.value = formDate.message;
+const formDataGetLocalStorage = localStorage.getItem("feedback-form-state");
+const saveToLoacalStorage = () => {
+    localStorage.setItem("feedback-form-state", JSON.stringify(formData))
 };
-function saveToLocalStorage() {
-    localStorage.setItem("feedback-form-state", JSON.stringify(formDate));
+
+if (formDataGetLocalStorage) {
+    formData = JSON.parse(formDataGetLocalStorage);
+    inputEmail.value = formData.email;
+    inputText.value = formData.message
 }
 
-form.addEventListener("input", (event) => {
-    const { name, value } = event.target;
-    formDate[name] = value;
-    saveToLocalStorage();
-})
-function clearFormDate() {
+const clearLocalStorage = () => {
     localStorage.removeItem("feedback-form-state");
-    formDate.email = "";
-    formDate.message = "";
+    formData.email = "";
+    formData.message = "";
     inputEmail.value = "";
-    inputMessage.value = "";
+    inputText.value = "";
 }
 
-form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (formDate.email && formDate.message) {
-        console.log(formDate);
-        clearFormDate();
+form.addEventListener("input", event => {
+    formData.email = inputEmail.value;
+    formData.message = inputText.value;
+    saveToLoacalStorage()
+})
+
+form.addEventListener("submit", evt => {
+    evt.preventDefault();
+    if(formData.email && formData.message){
+        console.log(formData);
+        clearLocalStorage()
     } else {
-        alert("Fill please all fields");
+        alert("Fill please all fields")
     }
 })

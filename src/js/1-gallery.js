@@ -81,11 +81,10 @@ const markup = images.map(({ preview, original, description }) => {
 </li>
 `}).join("")
 
-
 const list = document.querySelector(".gallery")
 list.innerHTML = markup;
 
-var lightbox = new SimpleLightbox('.gallery a', { 
-    captionsData: "alt",
-    captionDelay: 250,
+new SimpleLightbox('.gallery a', {
+  captionsData: "alt",
+  captionDelay: 250,
  });
